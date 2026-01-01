@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Каталог фигурок{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Шрифт для красивого текста -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        {% block header %}
+        <header class="header">
+            {% if request.url.path == '/' %}
+                <div class="header-badge">NEW</div>
+                <h1>Наши коллекции</h1>
+            {% endif %}
+        </header>
+        {% endblock %}
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item {% if request.url.path == '/' %}active{% endif %}">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Главная</span>
+        </a>
+        <a href="/collection/robot-ivan" class="nav-item {% if request.url.path.startswith('/collection') %}active{% endif %}">
+            <span class="nav-icon">🛍</span>
+            <span class="nav-text">Каталог</span>
+        </a>
+        <a href="/about" class="nav-item {% if request.url.path == '/about' %}active{% endif %}">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">О проекте</span>
+        </a>
+    </nav>
+
+    <script>
+        // Инициализация Telegram WebApp
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+        // Плавная загрузка
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.profile-animate').forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
